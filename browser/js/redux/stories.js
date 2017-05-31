@@ -42,7 +42,7 @@ export default function reducer (stories = [], action) {
   }
 }
 
-/* ------------       DISPATCHERS     ------------------ */
+/* ------------   THUNK CREATORS     ------------------ */
 
 export const fetchStories = () => dispatch => {
   axios.get('/api/stories')

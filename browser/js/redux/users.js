@@ -41,7 +41,7 @@ export default function reducer (users = [], action) {
 }
 
 
-/* ------------       DISPATCHERS     ------------------ */
+/* ------------   THUNK CREATORS     ------------------ */
 
 export const fetchUsers = () => dispatch => {
   axios.get('/api/users')
