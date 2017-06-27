@@ -64,9 +64,9 @@ class UserDetail extends React.Component {
 /* -----------------    CONTAINER     ------------------ */
 
 const mapState = ({ users, stories }, ownProps) => {
-  const param_id = Number(ownProps.params.id);
+  const paramId = Number(ownProps.match.params.id);
   return {
-    user: _.find(users, user => user.id === param_id),
+    user: _.find(users, user => user.id === paramId),
     stories
   };
 };
