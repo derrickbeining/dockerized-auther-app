@@ -1,6 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { Link, browserHistory } from 'react-router';
+import { Link, NavLink, withRouter } from 'react-router-dom';
+import history from '../history';
 
 /* -----------------    COMPONENT     ------------------ */
 
@@ -30,10 +31,10 @@ class Navbar extends React.Component {
           <div className="collapse navbar-collapse">
             <ul className="nav navbar-nav">
               <li>
-                <Link to="/users" activeClassName="active">users</Link>
+                <NavLink to="/users" activeClassName="active">users</NavLink>
               </li>
               <li>
-                <Link to="/stories" activeClassName="active">stories</Link>
+                <NavLink to="/stories" activeClassName="active">stories</NavLink>
               </li>
             </ul>
             { this.renderLogout() }
@@ -48,10 +49,10 @@ class Navbar extends React.Component {
     return (
       <ul className="nav navbar-nav navbar-right">
         <li>
-         <Link to="/signup" activeClassName="active">signup</Link>
+         <NavLink to="/signup" activeClassName="active">signup</NavLink>
         </li>
         <li>
-          <Link to="/login" activeClassName="active">login</Link>
+          <NavLink to="/login" activeClassName="active">login</NavLink>
         </li>
       </ul>
     );
@@ -79,8 +80,8 @@ const mapProps = null;
 const mapDispatch = dispatch => ({
   logout: () => {
     console.log('You signed out. Sorta.');
-    browserHistory.push('/');
+    history.push('/');
   }
 });
 
-export default connect(mapProps, mapDispatch)(Navbar);
+export default withRouter(connect(mapProps, mapDispatch)(Navbar));

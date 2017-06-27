@@ -1,6 +1,7 @@
-import React from 'react';
+import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { Router, Route, IndexRoute, browserHistory } from 'react-router';
+import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
+import history from './history';
 import Root from './components/Root';
 import Home from './components/Home';
 import Login from './components/Login';
@@ -10,24 +11,35 @@ import UserDetail from './components/User/UserDetail';
 import StoryList from './components/Story/StoryList';
 import StoryDetail from './components/Story/StoryDetail';
 import { fetchUsers } from './redux/users';
-import { fetchStories, fetchStory } from './redux/stories';
+import { fetchStories } from './redux/stories';
 
 /* -----------------    COMPONENT     ------------------ */
 
-const Routes = ({ fetchInitialData, onStoryEnter }) => (
-  <Router history={browserHistory}>
-    <Route path="/" component={Root} onEnter={fetchInitialData}>
-      <IndexRoute component={Home} />
-      <Route path="login" component={Login} />
-      <Route path="signup" component={Signup} />
-      <Route path="users" component={UserList} />
-      <Route path="users/:id" component={UserDetail} />
-      <Route path="stories" component={StoryList} />
-      <Route path="stories/:id" component={StoryDetail} onEnter={onStoryEnter} />
-      <Route path="*" component={Home} />
-    </Route>
-  </Router>
-);
+class Routes extends Component {
+
+  componentDidMount () {
+    this.props.fetchInitialData();
+  }
+
+  render () {
+    return (
+      <Router history={history}>
+        <Root>
+          <Switch>
+            <Route exact path="/" component={Home} />
+            <Route path="/login" component={Login} />
+            <Route path="/signup" component={Signup} />
+            <Route exact path="/users" component={UserList} />
+            <Route path="/users/:id" component={UserDetail} />
+            <Route exact path="/stories" component={StoryList} />
+            <Route path="/stories/:id" component={StoryDetail} />
+            <Route component={Home} />
+          </Switch>
+        </Root>
+      </Router>
+    );
+  }
+}
 
 /* -----------------    CONTAINER     ------------------ */
 
@@ -38,10 +50,6 @@ const mapDispatch = dispatch => ({
     dispatch(fetchUsers());
     dispatch(fetchStories());
     // what other data might we want to fetch on app load?
-  },
-  onStoryEnter: (nextRouterState) => {
-    const storyId = nextRouterState.params.id;
-    dispatch(fetchStory(storyId));
   }
 });
 
