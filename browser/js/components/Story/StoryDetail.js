@@ -26,7 +26,12 @@ class StoryDetail extends React.Component {
     this.props.fetchStoryData();
   }
 
-  componentWillReceiveProps (newProps, oldProps) {
+  componentWillReceiveProps (newProps) {
+
+    if (newProps.match.params.id !== this.props.match.params.id) {
+      this.props.fetchStoryData();
+    }
+
     this.setState({
       story: newProps.story
     });
@@ -100,7 +105,8 @@ class StoryDetail extends React.Component {
 
 const mapState = ({ users, stories }, ownProps) => {
   const story = stories.find(aStory => aStory.id === +ownProps.match.params.id);
-  return { story, users };
+  const storyId = ownProps.storyId;
+  return { story, users, storyId };
 };
 
 const mapDispatch = (dispatch, ownProps) => {
