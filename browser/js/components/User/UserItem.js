@@ -1,5 +1,5 @@
 import React from 'react';
-import { Link } from 'react-router';
+import { NavLink } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { removeUser } from '../../redux/users';
 import { removeStory } from '../../redux/stories';
@@ -21,7 +21,7 @@ class UserItem extends React.Component {
           <div className="media-left media-middle icon-container">
             <img className="media-object img-circle" src={user.photo} />
           </div>
-          <Link
+          <NavLink
             className="media-body"
             activeClassName="active"
             to={`/users/${user.id}`}>
@@ -34,7 +34,7 @@ class UserItem extends React.Component {
             <h5 className="tucked">
               <span>{user.phone}</span>
             </h5>
-          </Link>
+          </NavLink>
           <div className="media-right media-middle">
             <button
                 className="btn btn-default"

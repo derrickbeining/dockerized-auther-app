@@ -2,7 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import _ from 'lodash';
 import ContentEditable from 'react-contenteditable';
-import { updateStory } from '../../redux/stories';
+import { updateStory, fetchStory } from '../../redux/stories';
 
 /* -----------------    COMPONENT     ------------------ */
 
@@ -22,7 +22,16 @@ class StoryDetail extends React.Component {
     this.renderRawHTML = this.renderRawHTML.bind(this);
   }
 
-  componentWillReceiveProps (newProps, oldProps) {
+  componentDidMount () {
+    this.props.fetchStoryData();
+  }
+
+  componentWillReceiveProps (newProps) {
+
+    if (newProps.match.params.id !== this.props.match.params.id) {
+      this.props.fetchStoryData();
+    }
+
     this.setState({
       story: newProps.story
     });
@@ -95,15 +104,21 @@ class StoryDetail extends React.Component {
 /* -----------------    CONTAINER     ------------------ */
 
 const mapState = ({ users, stories }, ownProps) => {
-  const story = stories.find(aStory => aStory.id === +ownProps.params.id);
-  return { story, users };
+  const story = stories.find(aStory => aStory.id === +ownProps.match.params.id);
+  const storyId = ownProps.storyId;
+  return { story, users, storyId };
 };
 
-const mapDispatch = (dispatch) => {
+const mapDispatch = (dispatch, ownProps) => {
   return {
     debouncedUpdateStory: _.debounce((...args) => {
       dispatch(updateStory(...args));
-    }, 500)
+    }, 500),
+
+    fetchStoryData: () => {
+      const storyId = ownProps.match.params.id;
+      dispatch(fetchStory(storyId));
+    }
   };
 };
 
