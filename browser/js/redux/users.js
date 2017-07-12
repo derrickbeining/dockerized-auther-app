@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-/* -----------------    ACTIONS     ------------------ */
+/* -----------------    ACTION TYPES ------------------ */
 
 const INITIALIZE = 'INITIALIZE_USERS';
 const CREATE     = 'CREATE_USER';

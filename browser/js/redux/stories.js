@@ -1,7 +1,7 @@
 import axios from 'axios';
 import { REMOVE as REMOVE_USER } from './users';
 
-/* -----------------    ACTIONS     ------------------ */
+/* -----------------    ACTION TYPES ------------------ */
 
 const INITIALIZE = 'INITIALIZE_STORIES';
 const CREATE     = 'CREATE_STORY';
