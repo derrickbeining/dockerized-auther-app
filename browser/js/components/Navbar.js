@@ -47,6 +47,8 @@ class Navbar extends React.Component {
   }
 
   renderLoginSignup () {
+    const {currentUser} = this.props
+    if (currentUser.id) return null
     return (
       <ul className="nav navbar-nav navbar-right">
         <li>
@@ -60,6 +62,8 @@ class Navbar extends React.Component {
   }
 
   renderLogout () {
+    const {currentUser} = this.props
+    if (!currentUser.id) return null
     return (
       <ul className="nav navbar-nav navbar-right">
         <li>
@@ -76,7 +80,9 @@ class Navbar extends React.Component {
 
 /* -----------------    CONTAINER     ------------------ */
 
-const mapProps = null;
+const mapProps = ({currentUser}) => {
+  return {currentUser}
+}
 
 const mapDispatch = dispatch => ({
   logout: () => {

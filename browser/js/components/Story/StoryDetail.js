@@ -46,6 +46,7 @@ class StoryDetail extends React.Component {
         <ul className="list-inline large-font">
           <li>
             <input
+              disabled={(!currentUser.isAdmin && currentUser.id !== story.user_id)}
               className="form-like large-font"
               value={story.title}
               onChange={evt => this.onStoryUpdate({title: evt.target.value})}
@@ -54,6 +55,7 @@ class StoryDetail extends React.Component {
           <li><span className="muted">by</span></li>
           <li>
             <select
+              disabled={(!currentUser.isAdmin && currentUser.id !== story.user_id)}
               value={story.author_id}
               onChange={evt => this.onStoryUpdate({author_id: evt.target.value})}>
               {
@@ -66,7 +68,7 @@ class StoryDetail extends React.Component {
         </ul>
         <br />
         <ContentEditable
-          disabled={currentUser.id && !currentUser.isAdmin}
+          disabled={(!currentUser.isAdmin && currentUser.id !== story.user_id)}
           placeholder="(text here)"
           html={this.renderRawHTML()}
           onChange={evt => this.onStoryUpdate({paragraphs: evt.target.value})}

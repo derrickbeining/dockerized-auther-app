@@ -38,6 +38,18 @@ export const logout = () => dispatch => {
     .catch(err => console.error('Logout unsuccessful: ', err))
 }
 
+export const verifySession = () => dispatch => {
+  console.log('checking user session cookes...')
+  return axios.get('/api/auth/me')
+    .then(res => res.data)
+    .then(user => {
+      user.id && console.log('User session is valid; user logged in')
+      dispatch(setCurrentUser(user))
+    })
+    .catch(err => console.error('Something went wrong while checking client\'s session data: ', err))
+
+}
+
 export default (currentUser = {}, action) => {
 
   const {type, user} = action
