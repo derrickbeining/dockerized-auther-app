@@ -1,5 +1,7 @@
-import React from 'react';
-import { connect } from 'react-redux';
+import React from 'react'
+import {connect} from 'react-redux'
+import {addUser} from '../redux'
+import history from '../history'
 
 /* -----------------    COMPONENT     ------------------ */
 
@@ -7,11 +9,16 @@ class Signup extends React.Component {
 
   constructor(props) {
     super(props);
+    this.state = {
+      email: '',
+      password: '',
+    }
     this.onSignupSubmit = this.onSignupSubmit.bind(this);
+    this.onInputChange = this.onInputChange.bind(this);
   }
 
-  render() {
-    const { message } = this.props;
+  render () {
+    const {message} = this.props;
     return (
       <div className="signin-container">
         <div className="buffer local">
@@ -22,6 +29,7 @@ class Signup extends React.Component {
                 name="email"
                 type="email"
                 className="form-control"
+                onChange={this.onInputChange}
                 required
               />
             </div>
@@ -31,6 +39,7 @@ class Signup extends React.Component {
                 name="password"
                 type="password"
                 className="form-control"
+                onChange={this.onInputChange}
                 required
               />
             </div>
@@ -57,16 +66,27 @@ class Signup extends React.Component {
     );
   }
 
-  onSignupSubmit(event) {
-    const { message } = this.props;
+  onInputChange (event) {
+    const {value, name} = event.target
+    this.setState({[ name ]: value})
+  }
+
+  onSignupSubmit (event) {
     event.preventDefault();
-    console.log(`${message} isn't implemented yet`);
+    const {dispatch} = this.props
+    const {email, password} = this.state
+    dispatch(addUser({email, password}))
+      .then(newUser => {
+        console.log(newUser)
+        history.push(`/users/${newUser.id}`)
+      })
+      .catch(console.error.bind(console))
   }
 }
 
 /* -----------------    CONTAINER     ------------------ */
 
-const mapState = () => ({ message: 'Sign up' });
+const mapState = () => ({message: 'Sign up'});
 const mapDispatch = null;
 
 export default connect(mapState, mapDispatch)(Signup);

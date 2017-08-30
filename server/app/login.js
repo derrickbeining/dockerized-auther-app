@@ -1,16 +1,18 @@
 const loginRouter = require('express').Router()
-const User = require('../../db').model('user')
+const User = require('../db').model('user')
 
-loginRouter
-  .post((req, res, next) => {
+module.exports = loginRouter
+
+  .post('/', (req, res, next) => {
     User.findOne({
       where: req.body
     })
       .then(user => {
         if (user) {
           req.session.userId = user.id
-          res.sendStatus(200)
+          res.status(200).json(user)
         } else {
+          req.session = null
           res.sendStatus(401)
         }
       })

@@ -1,6 +1,6 @@
 import React from 'react';
-import { connect } from 'react-redux';
-import { Link, NavLink, withRouter } from 'react-router-dom';
+import {connect} from 'react-redux';
+import {Link, NavLink, withRouter} from 'react-router-dom';
 import history from '../history';
 
 /* -----------------    COMPONENT     ------------------ */
@@ -12,7 +12,7 @@ class Navbar extends React.Component {
     this.renderLogout = this.renderLogout.bind(this);
   }
 
-  render() {
+  render () {
     return (
       <nav className="navbar navbar-default">
         <div className="container">
@@ -37,19 +37,19 @@ class Navbar extends React.Component {
                 <NavLink to="/stories" activeClassName="active">stories</NavLink>
               </li>
             </ul>
-            { this.renderLogout() }
-            { this.renderLoginSignup() }
+            {this.renderLogout()}
+            {this.renderLoginSignup()}
           </div>
         </div>
       </nav>
     );
   }
 
-  renderLoginSignup() {
+  renderLoginSignup () {
     return (
       <ul className="nav navbar-nav navbar-right">
         <li>
-         <NavLink to="/signup" activeClassName="active">signup</NavLink>
+          <NavLink to="/signup" activeClassName="active">signup</NavLink>
         </li>
         <li>
           <NavLink to="/login" activeClassName="active">login</NavLink>
@@ -58,14 +58,14 @@ class Navbar extends React.Component {
     );
   }
 
-  renderLogout() {
+  renderLogout () {
     return (
       <ul className="nav navbar-nav navbar-right">
         <li>
-        <button
-          className="navbar-btn btn btn-default"
-          onClick={this.props.logout}>
-          logout
+          <button
+            className="navbar-btn btn btn-default"
+            onClick={this.props.logout}>
+            logout
         </button>
         </li>
       </ul>
@@ -79,7 +79,9 @@ const mapProps = null;
 
 const mapDispatch = dispatch => ({
   logout: () => {
-    console.log('You signed out. Sorta.');
+    dispatch(logout())
+      .then(() => console.log('User logged out'))
+      .catch(err => console.error('Logout unsuccessfull: ', err))
     history.push('/');
   }
 });
