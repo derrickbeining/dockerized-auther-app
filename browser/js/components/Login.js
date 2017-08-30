@@ -1,6 +1,7 @@
 import React from 'react';
 import {connect} from 'react-redux';
 import {login} from '../redux'
+import history from '../history'
 
 /* -----------------    COMPONENT     ------------------ */
 
@@ -77,6 +78,7 @@ class Login extends React.Component {
     const {dispatch} = this.props
     const {email, password} = this.state
     dispatch(login({email, password}))
+      .then(user => history.push(`/users/${user.id}`))
   }
 }
 

@@ -22,9 +22,12 @@ export const login = credentials => dispatch => {
   console.log('logging in...')
   return axios.post('/login', credentials)
     .then(res => res.data)
-    .then(user => dispatch(setCurrentUser(user)))
-    .then(() => console.log('Login successfull'))
-    .catch(console.error.bind(console))
+    .then(user => {
+      dispatch(setCurrentUser(user))
+      console.log('Login successfull')
+      return user
+    })
+    .catch(err => console.error('Login unsuccessful: ', err))
 }
 
 export const logout = () => dispatch => {

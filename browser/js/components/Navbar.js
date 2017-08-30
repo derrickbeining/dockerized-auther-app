@@ -1,6 +1,7 @@
 import React from 'react';
 import {connect} from 'react-redux';
 import {Link, NavLink, withRouter} from 'react-router-dom';
+import {logout} from '../redux'
 import history from '../history';
 
 /* -----------------    COMPONENT     ------------------ */
@@ -82,7 +83,7 @@ const mapDispatch = dispatch => ({
     dispatch(logout())
       .then(() => console.log('User logged out'))
       .catch(err => console.error('Logout unsuccessfull: ', err))
-    history.push('/');
+    history.push('/login');
   }
 });
 

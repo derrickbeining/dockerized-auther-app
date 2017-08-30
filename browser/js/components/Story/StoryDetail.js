@@ -1,8 +1,8 @@
 import React from 'react';
-import { connect } from 'react-redux';
+import {connect} from 'react-redux';
 import _ from 'lodash';
 import ContentEditable from 'react-contenteditable';
-import { updateStory, fetchStory } from '../../redux/stories';
+import {updateStory, fetchStory} from '../../redux/stories';
 
 /* -----------------    COMPONENT     ------------------ */
 
@@ -37,8 +37,8 @@ class StoryDetail extends React.Component {
     });
   }
 
-  render() {
-    const {users} = this.props;
+  render () {
+    const {users, currentUser} = this.props;
     const story = this.state.story;
     if (!story) return <div />; // the story id is invalid or the data isnt loaded yet
     return (
@@ -48,34 +48,35 @@ class StoryDetail extends React.Component {
             <input
               className="form-like large-font"
               value={story.title}
-              onChange={evt => this.onStoryUpdate({ title: evt.target.value })}
+              onChange={evt => this.onStoryUpdate({title: evt.target.value})}
             />
           </li>
           <li><span className="muted">by</span></li>
           <li>
             <select
               value={story.author_id}
-              onChange={evt => this.onStoryUpdate({ author_id: evt.target.value })}>
-            {
-              users.map(user => (
-                <option key={user.id} value={user.id}>{user.name}</option>
-              ))
-            }
+              onChange={evt => this.onStoryUpdate({author_id: evt.target.value})}>
+              {
+                users.map(user => (
+                  <option key={user.id} value={user.id}>{user.name}</option>
+                ))
+              }
             </select>
           </li>
         </ul>
         <br />
         <ContentEditable
+          disabled={currentUser.id && !currentUser.isAdmin}
           placeholder="(text here)"
           html={this.renderRawHTML()}
-          onChange={evt => this.onStoryUpdate({ paragraphs: evt.target.value })}
+          onChange={evt => this.onStoryUpdate({paragraphs: evt.target.value})}
         />
       </div>
     );
   }
 
-  renderRawHTML() {
-    const { story } = this.state;
+  renderRawHTML () {
+    const {story} = this.state;
 
     let storyHTML = '';
 
@@ -86,7 +87,7 @@ class StoryDetail extends React.Component {
     return storyHTML;
   }
 
-  onStoryUpdate(storyUpdateObj) {
+  onStoryUpdate (storyUpdateObj) {
     const {debouncedUpdateStory} = this.props;
     const {story} = this.state;
     // this is probably pretty fragile
@@ -103,10 +104,10 @@ class StoryDetail extends React.Component {
 
 /* -----------------    CONTAINER     ------------------ */
 
-const mapState = ({ users, stories }, ownProps) => {
+const mapState = ({users, stories, currentUser}, ownProps) => {
   const story = stories.find(aStory => aStory.id === +ownProps.match.params.id);
   const storyId = ownProps.storyId;
-  return { story, users, storyId };
+  return {story, users, storyId, currentUser};
 };
 
 const mapDispatch = (dispatch, ownProps) => {
